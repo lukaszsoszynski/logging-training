@@ -7,13 +7,13 @@
         <!-- encoders are assigned by default the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %mdc{user_name} - %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %mdc{user_name} - %msg%n</pattern>
         </encoder>
         <!--<encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
             <!--<includeMdc>true</includeMdc>-->
@@ -30,7 +30,7 @@
 
     <!--<logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="ERROR" />-->
     <logger name="org.hibernate.SQL" level="DEBUG"/>
-    <logger name="org.hibernate.type" level="DEBUG"/>
+    <logger name="org.hibernate.type" level="WARN"/> <!-- Set to trace to see SQL parameter values -->
     <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
     <logger name="com.impaqgroup.training.logging" level="DEBUG" />
 

@@ -20,7 +20,9 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class Application {
 
-    private final static int FILTER_ORDER_COMMONS_REQUEST_LOGGING_FILTER = 1;
+    private static final int FILTER_ORDER_USER_LOGGER_CONTEXT_FILTER = 1;
+    private final static int FILTER_ORDER_COMMONS_REQUEST_LOGGING_FILTER = FILTER_ORDER_USER_LOGGER_CONTEXT_FILTER + 1;
+
     public static final String ALL_REQUEST_PATH = "/*";
 
     public static void main(String[] args) {
@@ -43,15 +45,23 @@ public class Application {
     }
 
     @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
+    public FilterRegistrationBean requestLoggingFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        CommonsRequestLoggingFilter filter = createLoggingFilter();
-        filterRegistrationBean.setFilter(filter);
+        filterRegistrationBean.setFilter(createLoggingFilter());
         filterRegistrationBean.setOrder(FILTER_ORDER_COMMONS_REQUEST_LOGGING_FILTER);
-        filterRegistrationBean.setMatchAfter(false);
         filterRegistrationBean.setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR));
         filterRegistrationBean.setUrlPatterns(Collections.singleton(ALL_REQUEST_PATH));
-        return filter;
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean userLoggerContextFilter(){
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(new UserLoggerContextServletFilter());
+        filterRegistrationBean.setOrder(FILTER_ORDER_USER_LOGGER_CONTEXT_FILTER);
+        filterRegistrationBean.setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR));
+        filterRegistrationBean.setUrlPatterns(Collections.singleton(ALL_REQUEST_PATH));
+        return filterRegistrationBean;
     }
 
     private CommonsRequestLoggingFilter createLoggingFilter() {
