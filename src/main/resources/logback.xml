@@ -11,6 +11,8 @@
     </appender>
 
     <!--<logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="ERROR" />-->
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type" level="TRACE"/>
     <logger name="com.impaqgroup.training.logging" level="DEBUG" />
 
     <root level="WARN">
