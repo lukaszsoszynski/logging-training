@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RespCrudOperationConfiguration {
+public class RestCrudOperationConfiguration {
 
     private final String rootResourcePath;
     private final String username;

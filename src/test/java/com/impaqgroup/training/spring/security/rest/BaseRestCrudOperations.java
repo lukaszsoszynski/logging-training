@@ -1,25 +1,23 @@
 package com.impaqgroup.training.spring.security.rest;
 
-import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
+import static java.util.Collections.emptyMap;
 
 import java.nio.charset.Charset;
 import java.util.Collections;
 
-import static java.util.Collections.emptyMap;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.*;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class BaseRestCrudOperations<Dto> {
 
     private final RestTemplate restTemplate;
 
-    private final RespCrudOperationConfiguration configuration;
+    private final RestCrudOperationConfiguration configuration;
 
     public <ResponseDto> ResponseDto create(Dto dto, Class<ResponseDto> clazz) {
         HttpEntity<Dto> httpEntity = new HttpEntity<>(dto, createHeaderMapWithBasicAuth());

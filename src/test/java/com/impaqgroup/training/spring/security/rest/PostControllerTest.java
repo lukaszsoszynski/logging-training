@@ -1,19 +1,18 @@
 package com.impaqgroup.training.spring.security.rest;
 
 
-import com.impaqgroup.training.spring.security.rest.dto.PostDto;
-import com.impaqgroup.training.spring.security.rest.dto.PostResponseDto;
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.impaqgroup.training.spring.security.rest.dto.PostDto;
+import com.impaqgroup.training.spring.security.rest.dto.PostResponseDto;
 
 public class PostControllerTest {
 
@@ -25,7 +24,7 @@ public class PostControllerTest {
     @Before
     public void setUp() {
         /*@formatter:off*/
-        RespCrudOperationConfiguration configuration = RespCrudOperationConfiguration
+        RestCrudOperationConfiguration configuration = RestCrudOperationConfiguration
                 .builder()
                 .rootResourcePath("http://localhost:8080/post")
                 .username("ala")
