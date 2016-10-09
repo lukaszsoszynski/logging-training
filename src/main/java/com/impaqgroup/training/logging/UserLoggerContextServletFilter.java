@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
-import org.jboss.logging.MDC;
+import org.slf4j.MDC;
 
 public class UserLoggerContextServletFilter implements Filter{
 
