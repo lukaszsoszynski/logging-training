@@ -31,12 +31,14 @@ public class Application {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        /*@formatter:off*/
         auth
                 .inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER")
                 .and().withUser("ala").password("makota").roles("USER")
                 .and().withUser("bartek").password("mapsa").roles("USER")
                 .and().withUser("admin").password("password").roles("ADMIN");
+        /*@formatter:on*/
     }
 
     @Bean

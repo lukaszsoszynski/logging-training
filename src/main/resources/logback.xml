@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
     <property name="LOG_FILE" value="/var/log/forum/forum.log"/>
+    <property name="JSON_LOG_FILE" value="/var/log/forum/forum.json"/>
 
     <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -15,12 +16,23 @@
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %mdc{user_name} - %msg%n</pattern>
         </encoder>
-        <!--<encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
-            <!--<includeMdc>true</includeMdc>-->
-        <!--</encoder>-->
         <file>${LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <fileNamePattern>${LOG_FILE}.%i</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="JSON_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdc>true</includeMdc>
+        </encoder>
+        <file>${JSON_LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${JSON_LOG_FILE}.%i</fileNamePattern>
         </rollingPolicy>
         <triggeringPolicy
                 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
@@ -37,6 +49,7 @@
     <root level="WARN">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
+        <appender-ref ref="JSON_FILE" />
     </root>
 
 </configuration>
