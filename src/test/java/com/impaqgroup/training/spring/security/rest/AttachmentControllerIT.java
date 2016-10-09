@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.impaqgroup.training.spring.security.rest.dto.*;
 
-public class AttachmentControllerTest {
+public class AttachmentControllerIT {
 
     private final static AtomicLong ATOMIC_LONG_COUNTER = new AtomicLong(0);
     public static final int THREAD_COUNT = 5;
@@ -68,7 +68,7 @@ public class AttachmentControllerTest {
     private AttachmentDto createAttachment() {
         long number = ATOMIC_LONG_COUNTER.getAndIncrement();
         String content = "content " + number;
-        return new AttachmentDto(null, "name-" + number, "application/octet-stream", null);
+        return new AttachmentDto(null, "name-" + number, "application/octet-stream", content.getBytes());
     }
 
 }

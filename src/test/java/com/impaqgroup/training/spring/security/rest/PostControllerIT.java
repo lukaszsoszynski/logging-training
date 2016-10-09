@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.impaqgroup.training.spring.security.rest.dto.PostDto;
 import com.impaqgroup.training.spring.security.rest.dto.PostResponseDto;
 
-public class PostControllerTest {
+public class PostControllerIT {
 
     private final static AtomicLong ATOMIC_LONG_COUNTER = new AtomicLong(0);
     public static final int THREAD_COUNT = 5;
