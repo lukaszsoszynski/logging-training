@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
+    <property name="LOG_FILE" value="/var/log/forum/forum.log"/>
 
     <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -9,6 +10,23 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <!--<encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+            <!--<includeMdc>true</includeMdc>-->
+        <!--</encoder>-->
+        <file>${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%i</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
 
     <!--<logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="ERROR" />-->
     <logger name="org.hibernate.SQL" level="DEBUG"/>
@@ -17,6 +35,7 @@
 
     <root level="WARN">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
