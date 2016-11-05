@@ -35,6 +35,9 @@ public class AttachmentService {
         attachment = attachmentRepository.save(attachment);
         AttachmentResponseDto attachmentResponseDto = conversionService.convert(attachment, AttachmentResponseDto.class);
         LOGGER.info("New attachment created {}", attachmentResponseDto);
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("New attachment created " + attachmentResponseDto);
+        }
         return attachmentResponseDto;
     }
 
