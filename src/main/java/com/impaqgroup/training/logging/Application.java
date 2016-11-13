@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @SpringBootApplication
 @EnableWebSecurity
@@ -47,16 +46,6 @@ public class Application {
     }
 
     @Bean
-    public FilterRegistrationBean requestLoggingFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(createLoggingFilter());
-        filterRegistrationBean.setOrder(FILTER_ORDER_COMMONS_REQUEST_LOGGING_FILTER);
-        filterRegistrationBean.setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR));
-        filterRegistrationBean.setUrlPatterns(Collections.singleton(ALL_REQUEST_PATH));
-        return filterRegistrationBean;
-    }
-
-    @Bean
     public FilterRegistrationBean userLoggerContextFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new UserLoggerContextServletFilter());
@@ -64,14 +53,6 @@ public class Application {
         filterRegistrationBean.setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR));
         filterRegistrationBean.setUrlPatterns(Collections.singleton(ALL_REQUEST_PATH));
         return filterRegistrationBean;
-    }
-
-    private CommonsRequestLoggingFilter createLoggingFilter() {
-        CommonsRequestLoggingFilter filter = new CommonsRequestLoggingFilter();
-        filter.setIncludeClientInfo(true);
-        filter.setIncludeQueryString(true);
-        filter.setIncludePayload(true);
-        return filter;
     }
 
 }

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -22,8 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AttachmentService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AttachmentService.class);
-
     private final AttachmentRepository attachmentRepository;
 
     private final ConversionService conversionService;
@@ -34,10 +30,6 @@ public class AttachmentService {
         attachmentDto.setId(null);
         attachment = attachmentRepository.save(attachment);
         AttachmentResponseDto attachmentResponseDto = conversionService.convert(attachment, AttachmentResponseDto.class);
-        LOGGER.info("New attachment created {}", attachmentResponseDto);
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("New attachment created " + attachmentResponseDto);
-        }
         return attachmentResponseDto;
     }
 
@@ -55,19 +47,16 @@ public class AttachmentService {
     @Transactional
     public void remove(Long attachmentId){
         attachmentRepository.delete(attachmentId);
-        LOGGER.info("Attachment removed with id {}", attachmentId);
     }
 
     @Transactional
     public void update(AttachmentDto attachmentDto){
         Attachment attachment = conversionService.convert(attachmentDto, Attachment.class);
         attachmentRepository.save(attachment);
-        LOGGER.info("Attachment updated {}", attachment);
     }
 
     @Transactional(readOnly = true)
     public Optional<AttachmentDto> findOne(Long id) {
-        LOGGER.debug("Searching for attachment by id {}", id);
         /*@formatter:off*/
         return attachmentRepository
                 .findById(id)

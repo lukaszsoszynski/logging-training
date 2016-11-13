@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -22,8 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PostService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(PostService.class);
-
     private final PostRepository postRepository;
 
     private final ConversionService conversionService;
@@ -34,13 +30,11 @@ public class PostService {
         post.setId(null);
         post = postRepository.save(post);
         PostResponseDto postResponseDto = conversionService.convert(post, PostResponseDto.class);
-        LOGGER.info("New post with id {} added", postResponseDto);
         return postResponseDto;
     }
 
     @Transactional(readOnly = true)
     public List<PostDto> findAll() {
-        LOGGER.debug("Searching for all post");
         /*@formatter:off*/
         return postRepository
                 .findAll()
@@ -59,12 +53,10 @@ public class PostService {
     public void update(PostDto postDto) {
         Post post = conversionService.convert(postDto, Post.class);
         post = postRepository.save(post);
-        LOGGER.info("Post updated {}", post);
     }
 
     @Transactional(readOnly = true)
     public Optional<PostDto> findOne(Long id) {
-        LOGGER.debug("Searching for post by id {}", id);
         /*@formatter:off*/
         return postRepository
                 .findById(id)
