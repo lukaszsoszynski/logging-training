@@ -25,7 +25,7 @@ public class NiceNameTurboFilter extends TurboFilter {
     }
 
     private boolean isNice(String format, Set<Object> params) {
-        return format.contains(name) || params.contains(name);
+        return (format != null) && (format.contains(name) || params.contains(name));
     }
 
     public void setName(String name) {this.name = name;}
