@@ -11,10 +11,13 @@ import org.springframework.web.client.RestTemplate;
 import com.impaqgroup.training.logging.rest.dto.AttachmentDto;
 import com.impaqgroup.training.logging.rest.dto.AttachmentResponseDto;
 
+import lombok.SneakyThrows;
+
 public class AttachmentControllerIT {
 
     private final static AtomicLong ATOMIC_LONG_COUNTER = new AtomicLong(0);
-    public static final int THREAD_COUNT = 5;
+    public static final int THREAD_COUNT = 1;
+    public static final int DELAY = 1000;
 
     private AttachmentRestCrudOperations attachmentRestCrudOperations;
 
@@ -58,12 +61,14 @@ public class AttachmentControllerIT {
         };
     }
 
+    @SneakyThrows
     private void executeFullCrud(){
         AttachmentResponseDto postResponseDto = attachmentRestCrudOperations.create(createAttachment(), AttachmentResponseDto.class);
         AttachmentDto post = attachmentRestCrudOperations.find(postResponseDto.getId(), AttachmentDto.class);
         post.setName(post.getName() + "-" + ATOMIC_LONG_COUNTER.getAndIncrement());
         attachmentRestCrudOperations.update(post.getId(), post);
         attachmentRestCrudOperations.remove(post.getId());
+        Thread.sleep(DELAY);
     }
 
     private AttachmentDto createAttachment() {

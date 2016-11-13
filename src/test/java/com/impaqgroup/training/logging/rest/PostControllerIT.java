@@ -14,10 +14,13 @@ import org.springframework.web.client.RestTemplate;
 import com.impaqgroup.training.logging.rest.dto.PostDto;
 import com.impaqgroup.training.logging.rest.dto.PostResponseDto;
 
+import lombok.SneakyThrows;
+
 public class PostControllerIT {
 
     private final static AtomicLong ATOMIC_LONG_COUNTER = new AtomicLong(0);
-    public static final int THREAD_COUNT = 5;
+    public static final int THREAD_COUNT = 1;
+    public static final long DELAY = 1000L;
 
     private PostRestCrudOperations postRestCrudOperations;
 
@@ -87,12 +90,14 @@ public class PostControllerIT {
         };
     }
 
+    @SneakyThrows
     private void executeFullCrud(){
         PostResponseDto postResponseDto = postRestCrudOperations.create(createPost(), PostResponseDto.class);
         PostDto post = postRestCrudOperations.find(postResponseDto.getId(), PostDto.class);
         post.setContent(post.getContent() + "-" + ATOMIC_LONG_COUNTER.getAndIncrement());
         postRestCrudOperations.update(post.getId(), post);
         postRestCrudOperations.remove(post.getId());
+        Thread.sleep(DELAY);
     }
 
     private PostDto createPost() {
