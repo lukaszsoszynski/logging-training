@@ -1,2 +1,10 @@
-.mvn/
-mvnw*
+**/.classpath
+**/.project
+**/.settings/
+**/.idea/
+**/*.iml
+**/*.iws
+**/target
+**/bin/
+target/
+**/querydsl
