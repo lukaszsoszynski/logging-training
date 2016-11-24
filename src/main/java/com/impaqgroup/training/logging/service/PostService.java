@@ -15,10 +15,14 @@ import com.impaqgroup.training.logging.rest.dto.PostDto;
 import com.impaqgroup.training.logging.rest.dto.PostResponseDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class PostService {
+
+//    private final static Logger log = LoggerFactory.getLogger(PostService.class);
 
     private final PostRepository postRepository;
 
@@ -26,6 +30,7 @@ public class PostService {
 
     @Transactional
     public PostResponseDto create(PostDto postDto) {
+        log.info("Creating post {}", postDto);
         Post post = conversionService.convert(postDto, Post.class);
         post.setId(null);
         post = postRepository.save(post);
@@ -35,6 +40,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostDto> findAll() {
+        log.info("Searching for all posts");
         /*@formatter:off*/
         return postRepository
                 .findAll()
@@ -46,17 +52,20 @@ public class PostService {
 
     @Transactional
     public void remove(Long postId) {
+        log.info("Removeing post {}", postId);
         postRepository.delete(postId);
     }
 
     @Transactional
     public void update(PostDto postDto) {
+        log.info("Update post {}", postDto);
         Post post = conversionService.convert(postDto, Post.class);
         post = postRepository.save(post);
     }
 
     @Transactional(readOnly = true)
     public Optional<PostDto> findOne(Long id) {
+        log.info("Searching for post {}", id);
         /*@formatter:off*/
         return postRepository
                 .findById(id)

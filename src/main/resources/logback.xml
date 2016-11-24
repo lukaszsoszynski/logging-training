@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
-    <root level="OFF">
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <file>/home/lukasz/forum.log</file>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <file>/home/lukasz/forum.log</file>
+    </appender>
+    <appender name="FILE_JSON" class="ch.qos.logback.core.FileAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"></encoder>
+        <file>/home/lukasz/forum.json</file>
+    </appender>
+
+    <logger name="com.impaqgroup.training.logging" level="debug"/>
+    <logger name="org.hibernate.SQL" level="debug"/>
+    <root level="warn">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE_JSON" />
     </root>
 
 </configuration>
